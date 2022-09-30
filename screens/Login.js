@@ -1,18 +1,15 @@
-import { Input, Text, View, Box, VStack, Icon, Link, Button, KeyboardAvoidingView } from 'native-base'
+import { Input, Text, View, Box, VStack, Icon, Link, Button, KeyboardAvoidingView, Divider, Image } from 'native-base'
 import React, { useEffect, useState } from 'react'
 import { ImageBackground, Keyboard, StatusBar, StyleSheet } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faAt } from '@fortawesome/free-solid-svg-icons/faAt'
 import { faLock, faPhone, faUserTie } from '@fortawesome/free-solid-svg-icons';
 import { normalize } from '../function/responsiveText';
-
+import LoginWithGoogle from '../components/LoginWithGoogle';
+import Google from '../assets/google.png';
 
 
 export default function Login() {
-
-    // const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-
-
     useEffect(() => {
         const keyboardDidShowListener = Keyboard.addListener(
             'keyboardDidShow',
@@ -37,52 +34,48 @@ export default function Login() {
     const [bottomHide, setBottomHide] = useState('flex');
 
     return (
-        <View style={styles.container}>
+        <ImageBackground source={require('../assets/login-cover2.png')} resizeMode={'cover'} style={styles.container}>
 
             <StatusBar hidden />
             <View style={styles.imageArea}>
-                <ImageBackground source={require('../assets/business-deal.png')} resizeMode={'center'} style={styles.image}>
-                </ImageBackground>
+                {/* <ImageBackground source={require('../assets/business-deal.png')} resizeMode={'center'} style={styles.image}>
+                </ImageBackground> */}
+                <Text color={'#e9ebef'} fontWeight={'bold'} fontSize={normalize(20)}>Sign in</Text>
             </View>
             <KeyboardAvoidingView h={{
                 base: "400px",
                 lg: "auto"
             }} behavior={Platform.OS === "android" ? "padding" : "height"} style={styles.inputArea}>
-                <VStack space={'2'} style={styles.inputAreaInner}>
-                    <Text color={'#223555'} fontWeight={'bold'} fontSize={normalize(20)}>Sign up</Text>
-                    <Input InputLeftElement={<FontAwesomeIcon size={normalize(13)} color='#acb4c0' icon={faAt} style={styles.icon} />} style={styles.input} size={normalize(13)} variant="rounded" placeholder="Email ID" />
-                    <Input InputLeftElement={<FontAwesomeIcon size={normalize(13)} color='#acb4c0' icon={faUserTie} style={styles.icon} />} size={normalize(13)} variant="rounded" placeholder="Full name" />
-                    <Input InputLeftElement={<FontAwesomeIcon size={normalize(13)} color='#acb4c0' icon={faPhone} style={styles.icon} />} size={normalize(13)} variant="rounded" placeholder="Mobile" />
-                    <Input type='password' InputLeftElement={<FontAwesomeIcon size={normalize(13)} color='#acb4c0' icon={faLock} style={styles.icon} />} size={normalize(13)} variant="rounded" placeholder="Password" />
-                </VStack>
-                <Text color={'#71747a'} display={bottomHide} fontSize={normalize(10)}>By signing up, you're agree to the <Link href="https://nativebase.io" ><Text fontSize={normalize(10)} color="blue.400">
-                    Terms & Condition
-
-                </Text>
-                </Link>  and <Link href="https://nativebase.io">
-                        <Text fontSize={normalize(10)} color="blue.400">
-                            Privacy Policy
-
-                        </Text>
-
-                    </Link></Text>
-            </KeyboardAvoidingView>
-            <View style={styles.footer} display={bottomHide}>
-                <VStack alignItems={'center'} style={styles.footerInner}>
-                    <Button style={styles.button} size="md" variant="solid" bg={'#0065ff'}>
+                <VStack space={'2'} alignItems={'center'} style={styles.inputAreaInner}>
+                    
+                    <Input bg={'white'} InputLeftElement={<FontAwesomeIcon size={normalize(13)} color='#acb4c0' icon={faAt} style={styles.icon} />} style={styles.input} size={normalize(13)} variant="rounded" placeholder="Email ID" />
+                    <Input bg={'white'} type='password' InputLeftElement={<FontAwesomeIcon size={normalize(13)} color='#acb4c0' icon={faLock} style={styles.icon} />} size={normalize(13)} variant="rounded" placeholder="Password" />
+                    <Button marginTop={normalize(8)} borderRadius={15} style={styles.button} size={normalize(32)} variant="solid" bg={'#0065ff'}>
                         CONTINUE
                     </Button>
-                    <Text color={'#96a0af'} fontSize={normalize(12)} style={styles.loginText}>Joined us before? <Link onPress={() => alert('login')} isExternal _text={{
+                    {/* <Box alignItems={'center'} marginBottom={8}> */}
+                        <Text color='#acb4c0'>OR</Text>
+                    {/* </Box> */}
+                    {/* <Button marginTop={normalize(1)} style={styles.button} size={normalize(30)} variant="solid" bg={'#0065ff'}>
+                        CONTINUE
+                    </Button> */}
+                <Button size={normalize(30)} marginTop={normalize(1)} style={styles.button} borderRadius={10} bg={'#e9ebef'} variant={"unstyled"} startIcon={<Image style={styles.icon} size={normalize(15)} source={Google} alt={""}/>}><Text fontWeight={560} color={'#939dad'}>Login with Google</Text></Button>
+
+                {/* <LoginWithGoogle/> */}
+                </VStack>
+
+            </KeyboardAvoidingView>
+            <View style={styles.footer} display={bottomHide}>
+
+            <Text color={'#96a0af'} fontSize={normalize(12)} style={styles.loginText}>New to VehicleManager? <Link onPress={() => alert('login')} isExternal _text={{
                         color: "blue.400"
                     }} mt={-0.5} _web={{
                         mb: -2
                     }}>
-                        <Text fontSize={normalize(12)} color={'#0065ff'}>Login</Text>
+                        <Text fontSize={normalize(12)} color={'#0065ff'}>Register</Text>
                     </Link></Text>
-                </VStack>
-
             </View>
-        </View>
+        </ImageBackground>
     )
 }
 
@@ -93,7 +86,10 @@ const styles = StyleSheet.create({
 
     },
     imageArea: {
-        flex: 2.8,
+        flex: 2,
+        flexDirection:'column-reverse',
+        alignItems:'center',
+        paddingBottom:48
     },
     inputArea: {
         flex: 4,
@@ -106,6 +102,7 @@ const styles = StyleSheet.create({
     },
     footer: {
         flex: 1.2,
+        alignItems: 'center'
     },
     image: {
         flex: 1
@@ -120,7 +117,10 @@ const styles = StyleSheet.create({
         paddingTop: 15
     },
     button: {
-        width: '70%'
+        width: '70%',
+    },
+    googleButton:{
+        width: '70%',
     },
     loginText: {
         position: 'absolute',
