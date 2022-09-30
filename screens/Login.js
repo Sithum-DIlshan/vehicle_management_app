@@ -1,6 +1,6 @@
-import { Input, Text, View, Box, VStack, Icon, Link, Button } from 'native-base'
-import React, { useState } from 'react'
-import { ImageBackground, StatusBar, StyleSheet } from 'react-native';
+import { Input, Text, View, Box, VStack, Icon, Link, Button, KeyboardAvoidingView } from 'native-base'
+import React, { useEffect, useState } from 'react'
+import { ImageBackground, Keyboard, StatusBar, StyleSheet } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faAt } from '@fortawesome/free-solid-svg-icons/faAt'
 import { faLock, faPhone, faUserTie } from '@fortawesome/free-solid-svg-icons';
@@ -10,19 +10,47 @@ import { normalize } from '../function/responsiveText';
 
 export default function Login() {
 
+    // const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+
+
+    useEffect(() => {
+        const keyboardDidShowListener = Keyboard.addListener(
+            'keyboardDidShow',
+            () => {
+                setBottomHide('none'); // or some other action
+            }
+        );
+        const keyboardDidHideListener = Keyboard.addListener(
+            'keyboardDidHide',
+            () => {
+                setBottomHide('flex'); // or some other action
+            }
+        );
+
+        return () => {
+            keyboardDidHideListener.remove();
+            keyboardDidShowListener.remove();
+        };
+    }, []);
+
+
     const [bottomHide, setBottomHide] = useState('flex');
 
     return (
         <View style={styles.container}>
+
             <StatusBar hidden />
             <View style={styles.imageArea}>
                 <ImageBackground source={require('../assets/business-deal.png')} resizeMode={'center'} style={styles.image}>
                 </ImageBackground>
             </View>
-            <View style={styles.inputArea}>
+            <KeyboardAvoidingView h={{
+                base: "400px",
+                lg: "auto"
+            }} behavior={Platform.OS === "android" ? "padding" : "height"} style={styles.inputArea}>
                 <VStack space={'2'} style={styles.inputAreaInner}>
                     <Text color={'#223555'} fontWeight={'bold'} fontSize={normalize(20)}>Sign up</Text>
-                    <Input InputLeftElement={<FontAwesomeIcon size={normalize(13)} color='#acb4c0' icon={faAt} style={styles.icon} />} style={styles.input} size={normalize(13)} variant="rounded" placeholder="Email ID" onFocus={(e)=>setBottomHide('none')} />
+                    <Input InputLeftElement={<FontAwesomeIcon size={normalize(13)} color='#acb4c0' icon={faAt} style={styles.icon} />} style={styles.input} size={normalize(13)} variant="rounded" placeholder="Email ID" />
                     <Input InputLeftElement={<FontAwesomeIcon size={normalize(13)} color='#acb4c0' icon={faUserTie} style={styles.icon} />} size={normalize(13)} variant="rounded" placeholder="Full name" />
                     <Input InputLeftElement={<FontAwesomeIcon size={normalize(13)} color='#acb4c0' icon={faPhone} style={styles.icon} />} size={normalize(13)} variant="rounded" placeholder="Mobile" />
                     <Input type='password' InputLeftElement={<FontAwesomeIcon size={normalize(13)} color='#acb4c0' icon={faLock} style={styles.icon} />} size={normalize(13)} variant="rounded" placeholder="Password" />
@@ -32,13 +60,13 @@ export default function Login() {
 
                 </Text>
                 </Link>  and <Link href="https://nativebase.io">
-                    <Text fontSize={normalize(10)} color="blue.400">
+                        <Text fontSize={normalize(10)} color="blue.400">
                             Privacy Policy
 
                         </Text>
 
                     </Link></Text>
-            </View>
+            </KeyboardAvoidingView>
             <View style={styles.footer} display={bottomHide}>
                 <VStack alignItems={'center'} style={styles.footerInner}>
                     <Button style={styles.button} size="md" variant="solid" bg={'#0065ff'}>
@@ -84,7 +112,7 @@ const styles = StyleSheet.create({
     },
     icon: {
         marginRight: 10,
-        marginLeft:20,
+        marginLeft: 20,
         borderRadius: 20
     },
     footerInner: {
@@ -96,7 +124,7 @@ const styles = StyleSheet.create({
     },
     loginText: {
         position: 'absolute',
-        bottom:0
+        bottom: 0
     }
 });
 
