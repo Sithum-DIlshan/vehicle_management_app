@@ -10,8 +10,8 @@ const Tab = createBottomTabNavigator();
 export default function BottomNavigator() {
     return (
         <Tab.Navigator>
-            <Tab.Screen name="AddVehicle" component={AddVehicle} />
-            <Tab.Screen name="View" component={ViewVehicle} />
+            <Tab.Screen options={{ headerShown: false }}  name="AddVehicle" component={AddVehicle} />
+            <Tab.Screen options={{ headerShown: false }}  name="View" component={ViewVehicle} />
         </Tab.Navigator>
     )
 }

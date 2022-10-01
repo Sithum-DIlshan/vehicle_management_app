@@ -29,11 +29,12 @@ export default function App() {
   return (
     <NativeBaseProvider>
       <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen title name="Login" component={Login} />
-          <Stack.Screen name="Register" component={Register} />
-          <Stack.Screen name="Vehicles" component={BottomNavigator} />
-        </Stack.Navigator>
+        {/* <Stack.Navigator>
+          <Stack.Screen options={{ headerShown: false }}  title name="Login" component={Login} />
+          <Stack.Screen options={{ headerShown: false }}  name="Register" component={Register} />
+          <Stack.Screen options={{ headerShown: false }} name="Vehicles" component={BottomNavigator} />
+        </Stack.Navigator> */}
+        <BottomNavigator />
       </NavigationContainer>
     </NativeBaseProvider>
   )
