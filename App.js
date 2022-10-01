@@ -9,19 +9,82 @@ import { faSquareCheck } from '@fortawesome/free-solid-svg-icons/faSquareCheck'
 import { faMugSaucer } from '@fortawesome/free-solid-svg-icons/faMugSaucer'
 import Login from './screens/Login';
 import LoginWithGoogle from './components/LoginWithGoogle';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import AddVehicle from './screens/AddVehicle';
+import ViewVehicle from './screens/ViewVehicle';
+import BottomNavigator from './screens/navigator/BottomNavigator';
+
+const Stack = createStackNavigator();
 
 library.add(fab, faSquareCheck, faMugSaucer)
 
 
 export default function App() {
 
-  useEffect(()=>{
+  useEffect(() => {
     SplashScreen.hide();
   });
 
   return (
     <NativeBaseProvider>
-          <Login/>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen title name="Login" component={Login} />
+          <Stack.Screen name="Register" component={Register} />
+          <Stack.Screen name="Vehicles" component={BottomNavigator} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </NativeBaseProvider>
   )
 }
+
+// import * as React from 'react';
+// import { Text, View } from 'react-native';
+// import { NavigationContainer } from '@react-navigation/native';
+// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+// import SplashScreen from 'react-native-splash-screen'
+// import { Button, NativeBaseProvider } from 'native-base';
+// import Login from './screens/Login';
+
+
+
+// function HomeScreen({ navigation }) {
+//   return (
+//     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+//       <Text>Home!</Text>
+//       <Button
+//         title="Go to Settings"
+//         onPress={() => navigation.navigate('Settings')}
+//       />
+//     </View>
+//   );
+// }
+
+// function SettingsScreen({ navigation }) {
+//   return (
+//     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+//       <Text>Settings!</Text>
+//       <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
+//     </View>
+//   );
+// }
+
+// const Tab = createBottomTabNavigator();
+
+// export default function App() {
+//   React.useEffect(() => {
+//     SplashScreen.hide();
+//   });
+
+//   return (
+//     <NativeBaseProvider>
+//       <NavigationContainer>
+//         <Tab.Navigator>
+//           <Tab.Screen name="Home" component={Login} />
+//           <Tab.Screen name="Settings" component={SettingsScreen} />
+//         </Tab.Navigator>
+//       </NavigationContainer>
+//     </NativeBaseProvider>
+//   );
+// }

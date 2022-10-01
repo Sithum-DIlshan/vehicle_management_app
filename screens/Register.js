@@ -8,7 +8,7 @@ import { normalize } from '../function/responsiveText';
 
 
 
-export default function Register() {
+export default function Register({navigation}) {
 
     
 
@@ -77,7 +77,7 @@ export default function Register() {
                     }} mt={-0.5} _web={{
                         mb: -2
                     }}>
-                        <Text fontSize={normalize(12)} color={'#0065ff'}>Login</Text>
+                        <Text onPress={()=>navigation.navigate("Login")} fontSize={normalize(12)} color={'#0065ff'}>Login</Text>
                     </Link></Text>
                 </VStack>
 

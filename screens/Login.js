@@ -1,6 +1,6 @@
 import { Input, Text, View, Box, VStack, Icon, Link, Button, KeyboardAvoidingView, Divider, Image } from 'native-base'
 import React, { useEffect, useState } from 'react'
-import { ImageBackground, Keyboard, StatusBar, StyleSheet } from 'react-native';
+import { ImageBackground, Keyboard, StatusBar, StyleSheet, TouchableOpacity } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faAt } from '@fortawesome/free-solid-svg-icons/faAt'
 import { faLock, faPhone, faUserTie } from '@fortawesome/free-solid-svg-icons';
@@ -9,7 +9,7 @@ import LoginWithGoogle from '../components/LoginWithGoogle';
 import Google from '../assets/google.png';
 
 
-export default function Login() {
+export default function Login({navigation}) {
     useEffect(() => {
         const keyboardDidShowListener = Keyboard.addListener(
             'keyboardDidShow',
@@ -48,18 +48,18 @@ export default function Login() {
             }} behavior={Platform.OS === "android" ? "padding" : "height"} style={styles.inputArea}>
                 <VStack space={'2'} alignItems={'center'} style={styles.inputAreaInner}>
                     
-                    <Input bg={'white'} InputLeftElement={<FontAwesomeIcon size={normalize(13)} color='#acb4c0' icon={faAt} style={styles.icon} />} style={styles.input} size={normalize(13)} variant="rounded" placeholder="Email ID" />
-                    <Input bg={'white'} type='password' InputLeftElement={<FontAwesomeIcon size={normalize(13)} color='#acb4c0' icon={faLock} style={styles.icon} />} size={normalize(13)} variant="rounded" placeholder="Password" />
-                    <Button marginTop={normalize(8)} borderRadius={15} style={styles.button} size={normalize(32)} variant="solid" bg={'#0065ff'}>
-                        CONTINUE
+                    <Input backgroundColor={'white'} InputLeftElement={<FontAwesomeIcon size={normalize(13)} color='#acb4c0' icon={faAt} style={styles.icon} />} style={styles.input} size={normalize(13)} variant="rounded" placeholder="Email ID" />
+                    <Input backgroundColor={'white'} type='password' InputLeftElement={<FontAwesomeIcon size={normalize(13)} color='#acb4c0' icon={faLock} style={styles.icon} />} size={normalize(13)} variant="rounded" placeholder="Password" />
+                    <Button onPress={()=>navigation.navigate("Vehicles")} marginTop={normalize(8)} borderRadius={15} style={styles.button} size={normalize(32)} variant="solid" backgroundColor={'#0065ff'}>
+                        LOGIN
                     </Button>
                     {/* <Box alignItems={'center'} marginBottom={8}> */}
-                        <Text color='#acb4c0'>OR</Text>
+                        <Text color='#e9ebef'>OR</Text>
                     {/* </Box> */}
                     {/* <Button marginTop={normalize(1)} style={styles.button} size={normalize(30)} variant="solid" bg={'#0065ff'}>
-                        CONTINUE
+                        CONTINUE#e9ebef
                     </Button> */}
-                <Button size={normalize(30)} marginTop={normalize(1)} style={styles.button} borderRadius={10} bg={'#e9ebef'} variant={"unstyled"} startIcon={<Image style={styles.icon} size={normalize(15)} source={Google} alt={""}/>}><Text fontWeight={560} color={'#939dad'}>Login with Google</Text></Button>
+                <Button size={normalize(30)} marginTop={normalize(1)} style={styles.button} borderRadius={10} bg={'#f4f5f7'} variant={"unstyled"} startIcon={<Image style={styles.icon} size={normalize(15)} source={Google} alt={""}/>}><Text fontWeight={560} color={'#939dad'}>Login with Google</Text></Button>
 
                 {/* <LoginWithGoogle/> */}
                 </VStack>
@@ -72,7 +72,7 @@ export default function Login() {
                     }} mt={-0.5} _web={{
                         mb: -2
                     }}>
-                        <Text fontSize={normalize(12)} color={'#0065ff'}>Register</Text>
+                        <Text fontSize={normalize(12)} onPress={()=>navigation.navigate("Register")} color={'#0065ff'}>Register</Text>
                     </Link></Text>
             </View>
         </ImageBackground>
