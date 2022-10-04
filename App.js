@@ -14,6 +14,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import AddVehicle from './screens/AddVehicle';
 import ViewVehicle from './screens/ViewVehicle';
 import BottomNavigator from './screens/navigator/BottomNavigator';
+import { Provider as PaperProvider } from 'react-native-paper';
 
 const Stack = createStackNavigator();
 
@@ -28,14 +29,16 @@ export default function App() {
 
   return (
     <NativeBaseProvider>
-      <NavigationContainer>
-        {/* <Stack.Navigator>
+      <PaperProvider>
+        <NavigationContainer>
+          {/* <Stack.Navigator>
           <Stack.Screen options={{ headerShown: false }}  title name="Login" component={Login} />
           <Stack.Screen options={{ headerShown: false }}  name="Register" component={Register} />
           <Stack.Screen options={{ headerShown: false }} name="Vehicles" component={BottomNavigator} />
         </Stack.Navigator> */}
-        <BottomNavigator />
-      </NavigationContainer>
+          <BottomNavigator />
+        </NavigationContainer>
+      </PaperProvider>
     </NativeBaseProvider>
   )
 }

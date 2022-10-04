@@ -13,7 +13,10 @@ import { color } from 'native-base/lib/typescript/theme/styled-system';
 // const Tab = createBottomTabNavigator();
 const Tab = createMaterialBottomTabNavigator();
 
-export default function BottomNavigator() {
+export default function BottomNavigator({route}) {
+
+    // const AddVehicleWithParams = ()=><AddVehicle user={route.params}/>
+    // console.log(route.params);
     return (
         <Tab.Navigator initialRouteName="AddVehicle"
             activeColor="#ffff"
