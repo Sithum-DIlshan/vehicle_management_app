@@ -8,6 +8,9 @@ import { Actionsheet, Badge, Box, Button, Divider, HStack, Image, Input, Text, u
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import Files from '../assets/files.png';
 import Camera from '../assets/camera.png';
+import AnimatedLoader from 'react-native-animated-loader';
+import AwesomeAlert from 'react-native-awesome-alerts';
+
 
 
 export default function AddVehicle({ user }) {
@@ -29,6 +32,9 @@ export default function AddVehicle({ user }) {
     const [chassiNO, setChassiNO] = useState('')
     const [registrationNO, setRegistrationNO] = useState('')
     const [imagesToUpload, setImagesToUpload] = useState([])
+    const [loading, setLoading] = useState(false)
+    const [showAlert, setShowAlert] = useState(false)
+    const [visible, setVisible] = useState(false)
 
 
 
@@ -108,29 +114,45 @@ export default function AddVehicle({ user }) {
     }, [])
 
     const saveVehicle = async () => {
-        fetch('http://192.168.8.100:8080/user/vehicle', {
-            method: 'POST',
-            body: createFormData(imagesToUpload, {
-                name: ownerName,
-                contact: ownerContact,
-                address: ownerAddress,
-                chassi: chassiNO,
-                registration: registrationNO,
-            }),
-        })
-            .then((response) => response.json())
-            .then((response) => {
-                // console.log('response', response);
-                setImagesToUpload([])
+        if (imagesToUpload.length == 0 || chassiNO == '') {
+            setShowAlert(true)
+        } else {
+            setLoading(true)
+            const URL = 'http://192.168.8.100:8080/user/vehicles?' + new URLSearchParams({ emailId: user.User.emailId }).toString();
+            fetch(URL, {
+                method: 'POST',
+                body: createFormData(imagesToUpload, {
+                    name: ownerName,
+                    contact: ownerContact,
+                    address: ownerAddress,
+                    chassi: chassiNO,
+                    registration: registrationNO,
+                }),
             })
-            .catch((error) => {
-                console.log('error', error);
-            });
+            console.log("saved")
+            // console.log('response', response);
+            //
+            setImagesToUpload([]);
+            setImg([]);
+            setTimeout(() => {
+                setLoading(false)
+            }, 3000);
+
+
+        }
 
     }
     return (
         <View style={styles.view} justifyContent={'flex-start'} alignItems={'center'}>
-            {/* <Badge colorScheme={"success"} alignSelf="center" variant={"subtle"}>{user.User.emailId}</Badge> */}
+            {loading && <AnimatedLoader
+                visible={true}
+                overlayColor="rgba(255,255,255,0.75)"
+                source={require("../assets/loaders/97952-loading-animation-blue.json")}
+                animationStyle={styles.lottie}
+                speed={1}
+            >
+            </AnimatedLoader>}
+            <Badge colorScheme={"success"} alignSelf="center" variant={"subtle"}>{user.User.emailId}</Badge>
             <VStack mt={3} space={'2'} justifyContent="flex-start" alignItems={'center'} style={styles.inputAreaInner}>
                 <Text color={'#223555'} fontWeight={'bold'} fontSize={normalize(20)}>Add Vehicle</Text>
                 <Input onChangeText={(e) => setOwnerName(e)} value={ownerName} backgroundColor={'white'} InputLeftElement={<FontAwesomeIcon size={normalize(13)} color='#acb4c0' icon={faUser} style={styles.icon} />} style={styles.input} size={normalize(13)} variant="rounded" placeholder="Owner Name" />
@@ -141,7 +163,7 @@ export default function AddVehicle({ user }) {
                 <Button mt={3} borderRadius={10} bg={'#585e68'} startIcon={<FontAwesomeIcon size={normalize(13)} color='#f4f5f7' icon={faUpload} />} variant="outline" onPress={onOpen}><Text color={'#f4f5f7'}>Add Photos</Text></Button>
 
             </VStack>
-            <VStack display={bottomHide} mt={normalize(25)} space={5}>
+            <VStack display={bottomHide} mt={40} space={5}>
                 <HStack height={normalize(60)} >
                     {/* <Image size={"md"} resizeMode="contain" source={{uri:'data:image/png;base64,'}} alt={"Alternate Text "} /> */}
 
@@ -158,6 +180,21 @@ export default function AddVehicle({ user }) {
                     <Actionsheet.Item alignItems={'center'} startIcon={<Image size={normalize(27)} source={Files} alt={""} />} onPress={openGallery}>Open</Actionsheet.Item>
                 </Actionsheet.Content>
             </Actionsheet>
+            <AwesomeAlert
+                show={showAlert}
+                showProgress={false}
+                title={"Please be sure add at least one image and Chassi Number !!"}
+                // message={alertMsg}
+                closeOnTouchOutside={true}
+                closeOnHardwareBackPress={true}
+                showConfirmButton={true}
+                confirmText="Ok"
+                confirmButtonColor="#2ecc71"
+
+                onConfirmPressed={() => {
+                    setShowAlert(false)
+                }}
+            />
         </View>
     )
 }

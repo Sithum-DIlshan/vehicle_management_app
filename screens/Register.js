@@ -13,7 +13,7 @@ import AnimatedLoader from 'react-native-animated-loader';
 export default function Register({ navigation }) {
 
 
-    const baseUrl = "http://192.168.8.102:8080/"
+    const baseUrl = "http://192.168.8.100:8080/"
 
     useEffect(() => {
         const keyboardDidShowListener = Keyboard.addListener(

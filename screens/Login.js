@@ -22,7 +22,7 @@ export default function Login({ navigation }) {
     
 
     const login = async () => {
-        const URL = 'http://192.168.8.102:8080/user?'+new URLSearchParams({ emailId: email }).toString();
+        const URL = 'http://192.168.8.100:8080/user?'+new URLSearchParams({ emailId: email }).toString();
         // setShowAlert(true)
         // await fetch('http://192.168.8.102:8080/user')
         //     .then((response) => { console.log(response.formData) })

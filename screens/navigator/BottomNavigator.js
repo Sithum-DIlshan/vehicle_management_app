@@ -15,15 +15,16 @@ const Tab = createMaterialBottomTabNavigator();
 
 export default function BottomNavigator({route}) {
 
-    // const AddVehicleWithParams = ()=><AddVehicle user={route.params}/>
+    const AddVehicleWithParams = ()=><AddVehicle user={route.params}/>
+    const ViewVehicleWithParams = ()=><ViewVehicle user={route.params}/>
     // console.log(route.params);
     return (
         <Tab.Navigator initialRouteName="AddVehicle"
             activeColor="#ffff"
             inactiveColor="#6f93cc"
             barStyle={{ backgroundColor: '#275db3' }}>
-            <Tab.Screen options={{ tabBarLabel:"Add",headerShown: false, tabBarIcon: () => (<FontAwesomeIcon size={normalize(15)} color='#acb4c0' icon={faPlus} />), }} name="AddVehicle" component={AddVehicle} />
-            <Tab.Screen options={{ headerShown: false,tabBarIcon: () => (<FontAwesomeIcon size={normalize(15)} color='#acb4c0' icon={faCab} />), }} name="View" component={ViewVehicle} />
+            <Tab.Screen options={{ tabBarLabel:"Add",headerShown: false, tabBarIcon: () => (<FontAwesomeIcon size={normalize(15)} color='#acb4c0' icon={faPlus} />), }} name="AddVehicle" component={AddVehicleWithParams} />
+            <Tab.Screen options={{ headerShown: false,tabBarIcon: () => (<FontAwesomeIcon size={normalize(15)} color='#acb4c0' icon={faCab} />), }} name="View" component={ViewVehicleWithParams} />
         </Tab.Navigator>
     )
 }
